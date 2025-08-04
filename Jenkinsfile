@@ -8,20 +8,24 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Run Docker Containers') {
             steps {
-                script {
-                    sh 'docker-compose build'
-                }
+                sh 'docker-compose down || true'
+                sh 'docker-compose build'
+                sh 'docker-compose up -d'
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Verify Running Containers') {
             steps {
-                script {
-                    sh 'docker-compose up -d'
-                }
+                sh 'docker ps'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline completed!'
         }
     }
 }
