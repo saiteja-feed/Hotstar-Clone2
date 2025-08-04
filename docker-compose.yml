@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  hotstar-app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    networks:
+      - hotstar-net
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/hotstar
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - hotstar-net
+
+networks:
+  hotstar-net:
+    driver: bridge
+
