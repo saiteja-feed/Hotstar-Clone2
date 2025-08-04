@@ -1,9 +1,26 @@
 pipeline {
     agent any
+
     stages {
-        stage('Test') {
+        stage('Clone Repo') {
             steps {
-                echo 'Hello from Jenkins!'
+                git url: 'https://github.com/saiteja-feed/Hotstar-Clone2.git', branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker-compose build'
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sh 'docker-compose up -d'
+                }
             }
         }
     }
